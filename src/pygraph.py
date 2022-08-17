@@ -761,3 +761,35 @@ def dfs(G: Graph, start: int):
     Depth-first search.
     """
     pass
+
+def prim(G: Graph, start: int):
+    """
+    G is a weighted Graph
+    """
+    E = G.V-1
+    mst_cost, edge_count = 0, 0
+    mst_edges = []
+    visited = set()
+    queue = deque()
+    
+    def add_edges(node):
+        visited.add(node)
+        adj_edges = G.adj_mat[node]
+        for vertex, weight in enumerate(adj_edges):
+            if vertex not in visited and weight != 0:
+                queue.append((weight, vertex))    
+    
+    add_edges(start)
+    while queue and edge_count != E:
+        edge_weight, edge_dest = queue.popleft()
+        if edge_dest in visited:
+            continue
+        mst_edges.append((edge_weight, edge_dest))
+        mst_cost += edge_weight
+        add_edges(edge_dest)
+        
+    return mst_cost
+
+g = Graph(is_weighted=True)
+g.build_from_txt("G_1_2.txt")
+res = prim(g, start=0)
