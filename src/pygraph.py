@@ -155,7 +155,7 @@ class Graph:
                 if self.is_weighted:
                     res.append((i, self.adj_mat[v][i]))
                 else:
-                    res.append(neighbour)
+                    res.append(self.adj_mat[v][i])
         return res
 
     def get_edges_list(self, b_flow_res_cap) -> np.array:
@@ -770,26 +770,27 @@ def prim(G: Graph, start: int):
     mst_cost, edge_count = 0, 0
     mst_edges = []
     visited = set()
-    queue = deque()
+    heap = []
     
     def add_edges(node):
         visited.add(node)
-        adj_edges = G.adj_mat[node]
-        for vertex, weight in enumerate(adj_edges):
-            if vertex not in visited and weight != 0:
-                queue.append((weight, vertex))    
+        adj_edges = G.get_adjacent_nodes(node)
+        for vertex, weight in adj_edges:
+            if vertex not in visited:
+                heappush(heap, (weight, vertex))    
     
     add_edges(start)
-    while queue and edge_count != E:
-        edge_weight, edge_dest = queue.popleft()
+    while edge_count < E:
+        edge_weight, edge_dest = heappop(heap)
         if edge_dest in visited:
             continue
-        mst_edges.append((edge_weight, edge_dest))
+        mst_edges.append((edge_dest, edge_weight))
+        edge_count += 1
         mst_cost += edge_weight
         add_edges(edge_dest)
-        
     return mst_cost
 
 g = Graph(is_weighted=True)
-g.build_from_txt("G_1_2.txt")
+g.build_from_txt("G_1_2.txt") # 287. ...
 res = prim(g, start=0)
+print(res)
