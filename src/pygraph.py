@@ -158,15 +158,15 @@ class Graph:
                     res.append(self.adj_mat[v][i])
         return res
 
-    def get_edges_list(self, b_flow_res_cap) -> np.array:
+    def get_edges_list(self,) -> np.array:
         """
         Returns a list of edges (tuples) from the graph object
         by transforming the adjacency matrix.
         """
         res = []
-        for ix, iy in np.ndindex(b_flow_res_cap.shape):
-            if b_flow_res_cap[ix][iy]:
-                res.append((ix, iy, self.costs_mat[ix][iy]))
+        for ix, iy in np.ndindex(self.adj_mat.shape):
+            if self.adj_mat[ix][iy]:
+                res.append((ix, iy, self.adj_mat[ix][iy]))
         return np.array(res)
 
     def nearest_neighbour(self, return_cycle) -> None:
@@ -761,37 +761,3 @@ def dfs(G: Graph, start: int):
     Depth-first search.
     """
     pass
-
-def prim(G: Graph, start: int):
-    """
-    G is a weighted Graph
-    """
-    E = G.V-1
-    mst_cost, edge_count = 0, 0
-    mst_edges = []
-    visited = set()
-    heap = []
-    
-    def add_edges(node):
-        visited.add(node)
-        adj_edges = G.get_adjacent_nodes(node)
-        for vertex, weight in adj_edges:
-            if vertex not in visited:
-                heappush(heap, (weight, vertex))    
-    
-    add_edges(start)
-    while edge_count < E:
-        edge_weight, edge_dest = heappop(heap)
-        if edge_dest in visited:
-            continue
-        mst_edges.append((edge_dest, edge_weight))
-        edge_count += 1
-        mst_cost += edge_weight
-        add_edges(edge_dest)
-    return mst_cost
-"""
-g = Graph(is_weighted=True)
-g.build_from_txt("../sample_graphs/G_1_2.txt") # 287. ...
-res = prim(g, start=0)
-print(res)
-"""
