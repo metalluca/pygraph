@@ -789,8 +789,9 @@ def prim(G: Graph, start: int):
         mst_cost += edge_weight
         add_edges(edge_dest)
     return mst_cost
-
+"""
 g = Graph(is_weighted=True)
-g.build_from_txt("G_1_2.txt") # 287. ...
+g.build_from_txt("../sample_graphs/G_1_2.txt") # 287. ...
 res = prim(g, start=0)
 print(res)
+"""

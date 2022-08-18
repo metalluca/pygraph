@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, 'C:/Users/luca-/OneDrive - Fachhochschule Aachen/Python/projects/pygraph/src')
 
 import unittest
-from pygraph import Graph``
+from pygraph import Graph
 from pg_util import get_connected_components
 
 class TestComponents(unittest.TestCase):
