@@ -5,7 +5,7 @@ import unittest
 from pygraph import Graph
 from minimum_spanning_trees import prim, kruskal
 
-class TestMST(unittest.TestCase):
+class Test_mst_cost(unittest.TestCase):
     
     decimal_place = 0
     

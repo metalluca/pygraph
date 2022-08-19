@@ -14,12 +14,14 @@ def dijkstra(G: Graph, start: int):
     dist[start] = 0
     
     while queue:
-        _, node = heappop(queue)
+        weight, node = heappop(queue)
         if node in visited:
             continue
         visited.add(node)
         curr_dist = dist[node]
         for neighbour, weight in G.get_adjacent_nodes(node):
+            if weight < 0:
+                return False
             if neighbour in visited:
                 continue
             dist_to_neighbour = curr_dist + weight
@@ -27,7 +29,7 @@ def dijkstra(G: Graph, start: int):
                 heappush(queue, (dist_to_neighbour, neighbour))
                 dist[neighbour] = dist_to_neighbour
                 pred[neighbour] = node
-    return 0
+    return dist
 
 def bellman_ford(G: Graph, start: int):
     dist = {i:float("inf") for i in range(G.V)}
@@ -51,10 +53,6 @@ def bellman_ford(G: Graph, start: int):
             c = G.adj_mat[u][v]
             if c != 0:
                 if dist[u] + c < dist[v]:
-                    print("Detected negative cycle")       
-    print(dist[0])                    
-    return 0       
+                    return False       
+    return dist       
 
-g = Graph(is_weighted=True, is_directed=True)
-g.build_from_txt("../sample_graphs/Wege2.txt")
-bellman_ford(g, 2)
