@@ -1,7 +1,4 @@
-from re import X
-import sys
-sys.path.insert(0, 'C:/Users/luca-/OneDrive - Fachhochschule Aachen/Python/projects/pygraph/src')
-from pygraph import Graph
+from application.graph import Graph
 from heapq import heappop, heappush
 
 def prim(G: Graph):

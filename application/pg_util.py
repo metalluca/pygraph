@@ -1,8 +1,4 @@
-"""
-This file contains utility functions which make use of algorithms but are not a pure implementation.
-"""
-
-from pygraph import Graph
+from application.graph import Graph
 from collections import deque
 
 def get_connected_components(G: Graph()) -> list:
