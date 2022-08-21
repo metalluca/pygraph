@@ -20,8 +20,10 @@ def get_connected_components(G: Graph()) -> list:
 
     visited = set()
     result = []
-    for vertex in range(G.V):
+    vertex = 0
+    while len(visited) < G.V:
         if vertex not in visited:
             component, visited = get_connected_component(vertex, visited)
             result.append(component)
+        vertex += 1
     return result

@@ -1,7 +1,6 @@
 from application.graph import Graph
 from heapq import heappop, heappush
 
-
 def dijkstra(G: Graph, start: int):
     dist = {i:float("inf") for i in range(G.V)}
     pred = {i:None for i in range(G.V)}
