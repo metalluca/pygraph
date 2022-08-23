@@ -1,7 +1,11 @@
 from application.graph import Graph
+from application.minimum_spanning_trees import prim
 
 def tsp_nearest_neighbour(G: Graph):
-    
+    """
+    Implementation of greedy nearest neighbour heuristic to solve the TSP.
+
+    """
     start = 0
     visited = set()
     res = []
@@ -24,4 +28,11 @@ def tsp_nearest_neighbour(G: Graph):
     res.append(start)
     
     return tsp_cost + G.adj_mat[res[-2]][start]
+
  
+def double_tree(G: Graph): 
+     g = Graph(is_weighted=True)
+     g.build_from_txt("application/sample_graphs/K_10.txt")
+     mst_g = prim(g)
+     mst_g.show_graph()
+     # TODO: Implement BFS or DFS for the rest of the algorithm
