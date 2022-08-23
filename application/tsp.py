@@ -10,6 +10,7 @@ def tsp_nearest_neighbour(G: Graph):
     visited.add(start)
     
     curr_v = start
+    
     while(len(visited) < G.V):
         next, cost = min([(v, c) for (v, c) in enumerate(G.adj_mat[curr_v]) 
                          if v not in visited and c != 0],
@@ -22,5 +23,5 @@ def tsp_nearest_neighbour(G: Graph):
             break
     res.append(start)
     
-    print(tsp_cost + G.adj_mat[res[-2]][start])
+    return tsp_cost + G.adj_mat[res[-2]][start]
  
