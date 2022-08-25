@@ -40,9 +40,7 @@ def tsp_nearest_neighbour(G: Graph) -> float:
  
 def tsp_double_tree(G: Graph) -> float: 
     "Implementation of the double tree heuristic to solve the TSP"
-    g = Graph(is_weighted=True)
-    g.build_from_txt("application/sample_graphs/K_10.txt")
-    mst_g = prim(g)
+    mst_g = prim(G)
     mst_g.V = G.V
     start = 0
     
