@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*- 
-"""Approaches to solve the Travelling Salesman problem.
-
-   Implementation consists of the nearest neighbour heuristic and the double tree heuristic.
+"""
+   Approaches to solve the Travelling Salesman problem.
+   -----------------------------------------------------------------------------------------  
+   Implementation consists of the nearest neighbour heuristic, the double tree heuristic and a Brute-Force approach.
    The heuristic solutions are not the optimal but provide a solution in polynomial time.
    Note that these implementations are not efficient.
 
@@ -42,7 +43,7 @@ def tsp_nearest_neighbour(G: Graph) -> float:
 
  
 def tsp_double_tree(G: Graph) -> float: 
-    "Implementation of the double tree heuristic to solve the TSP"
+    """Implementation of the double tree heuristic to solve the TSP."""
     mst_g = prim(G)
     mst_g.V = G.V
     start = 0
