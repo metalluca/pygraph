@@ -19,9 +19,9 @@ class Edge:
         self.weight = np.float16(weight)
 
 class Graph:
-    def __init__(self, is_directed=False, is_weighted=False, is_min_flow_network=False):
+    def __init__(self, V=None, is_directed=False, is_weighted=False, is_min_flow_network=False):
 
-        self.V = None
+        self.V = V
         self.adj_mat = None
         self.costs_mat = None
         self.balances = None
@@ -31,6 +31,8 @@ class Graph:
 
         if is_min_flow_network and is_directed != is_min_flow_network:
             print("Error flow network must be directed!")
+        if V:
+            self.adj_mat = np.zeros((self.V, self.V), dtype=np.float16)
 
     def build_from_txt(self, path: str):
         """
@@ -746,26 +748,24 @@ class Graph:
         flow_costs = flow * self.costs_mat
         print(f"min-cost: {flow_costs.sum()}")
 
-def bfs(G: Graph, start: int, visited=set()):
+def bfs(G: Graph, start: int, end=None, visited=set()):
     """
     Breadth-first search.
     """
-    
-    tree = Graph()
-    tree.V = G.V
-    tree.adj_mat = np.zeros((tree.V, tree.V), dtype=np.int16)
-    
+    tree = Graph(G.V, is_weighted=True)
     queue = deque([start])
-    visited.add(start)
     
     while queue:
         curr_v = queue.popleft()
-        for neighbour in G.adj_mat[curr_v]:
+        if end and curr_v == end:
+            return True 
+        for neighbour, weight in G.get_adjacent_nodes(curr_v):
             if neighbour not in visited:
-                queue.append(neighbour)
                 visited.add(neighbour)
-                tree[curr_v][neighbour] = 1
-    return tree
+                queue.append(neighbour)
+                edge = Edge(curr_v, neighbour, weight)
+                tree.add_edge(edge)
+    return False if end else tree
 
 def dfs(G: Graph, start: int):
     """
