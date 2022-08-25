@@ -3,7 +3,10 @@ from application.graph import Graph
 from application.minimum_spanning_trees import prim, kruskal
 
 class Test_mst_cost(unittest.TestCase):
-    
+    """
+    ! Refactor therefore the tests
+    ! Currently notworking due to changes to the prim algorithm's return type 
+    """
     decimal_place = 0
     
     def test_graph_g_1_2_prim(self):

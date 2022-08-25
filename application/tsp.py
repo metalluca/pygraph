@@ -1,3 +1,4 @@
+from collections import deque
 from application.graph import Graph
 from application.minimum_spanning_trees import prim
 
@@ -31,8 +32,35 @@ def tsp_nearest_neighbour(G: Graph):
 
  
 def double_tree(G: Graph): 
-     g = Graph(is_weighted=True)
-     g.build_from_txt("application/sample_graphs/K_10.txt")
-     mst_g = prim(g)
-     mst_g.show_graph()
-     # TODO: Implement BFS or DFS for the rest of the algorithm
+    "DOCSTRING"
+    g = Graph(is_weighted=True)
+    g.build_from_txt("application/sample_graphs/K_10.txt")
+    mst_g = prim(g)
+    mst_g.V = G.V
+    start = 0
+    mst_g.show_graph()
+    
+    visited = set()
+    path = []
+    def dfs_rec(v, visited):
+       visited.add(v)
+       path.append(v)
+       for neighbour, _ in mst_g.get_adjacent_nodes(v):
+            if neighbour not in visited:
+                dfs_rec(neighbour, visited)
+    def dfs_it(v):
+        stack = deque([v])
+        visited = set()
+        
+        while stack:
+            curr_v = stack.pop()
+            if curr_v in visited:
+                continue
+            visited.add(curr_v)
+            path.append(curr_v)
+            for neighbour, _ in mst_g.get_adjacent_nodes(curr_v):
+                if neighbour not in visited:
+                    stack.append(neighbour)
+    dfs_it(start)
+    print(path)
+    # TODO: Implement DFS for the rest of the algorithm
