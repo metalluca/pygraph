@@ -1,12 +1,19 @@
+# -*- coding: utf-8 -*- 
+"""Approaches to solve the Travelling Salesman problem.
+
+   Implementation consists of the nearest neighbour heuristic and the double tree heuristic.
+
+   Todo: 
+       * Brute-Force 
+       * Branch-and-Bound 
+"""
+
 from collections import deque
 from application.graph import Graph
 from application.minimum_spanning_trees import prim
 
 def tsp_nearest_neighbour(G: Graph) -> float:
-    """
-    Implementation of greedy nearest neighbour heuristic to solve the TSP.
-
-    """
+    """Implemented of greedy nearest neighbour heuristic to solve the TSP."""
     start = 0
     visited = set()
     res = []
@@ -31,8 +38,8 @@ def tsp_nearest_neighbour(G: Graph) -> float:
     return tsp_cost + G.adj_mat[res[-2]][start]
 
  
-def double_tree(G: Graph) -> float: 
-    "DOCSTRING"
+def tsp_double_tree(G: Graph) -> float: 
+    "Implementation of the double tree heuristic to solve the TSP"
     g = Graph(is_weighted=True)
     g.build_from_txt("application/sample_graphs/K_10.txt")
     mst_g = prim(g)
@@ -61,9 +68,4 @@ def double_tree(G: Graph) -> float:
                 if neighbour not in visited:
                     stack.append(neighbour)
     dfs_rec(start, visited)
-    res = sum([
-                G.get_cost_of_edge(path[i], path[i + 1])
-                for i in range(len(path) - 1)
-            ]) + G.get_cost_of_edge(path[-1], path[0])
-    return res
-    # TODO: Implement DFS for the rest of the algorithm
+    return G.get_cost_of_cycle(tuple(path))

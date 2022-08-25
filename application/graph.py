@@ -311,7 +311,7 @@ class Graph:
         return self.adj_mat[v][u]
 
     @lru_cache(maxsize=1000)
-    def get_cost_of_cycle(self, nodes) -> float:
+    def get_cost_of_cycle(self, nodes: list) -> float:
         """
         Return the sum of a path.
         """
