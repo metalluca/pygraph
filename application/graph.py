@@ -308,7 +308,7 @@ class Graph:
         Return the cost of an edge v,u
         """
 
-        return self.adj_mat[int(v)][int(u)]
+        return self.adj_mat[v][u]
 
     @lru_cache(maxsize=1000)
     def get_cost_of_cycle(self, nodes) -> float:

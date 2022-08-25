@@ -1,6 +1,6 @@
 import unittest
 from application.graph import Graph
-from application.tsp import double_tree
+from application.tsp import double_tree, tsp_nearest_neighbour
 
 # class Test_shortest_paths(unittest.TestCase):
     
@@ -9,5 +9,5 @@ from application.tsp import double_tree
 #     def test_graph_wege1_dijkstra(self):
 g = Graph(is_weighted=True)
 g.build_from_txt("application/sample_graphs/K_10.txt")
-double_tree(g)
+print(double_tree(g))
         

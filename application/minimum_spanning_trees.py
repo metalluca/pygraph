@@ -16,7 +16,7 @@ def prim(G: Graph):
     start = 0
     mst_cost, edge_count = 0, 0
     mst_edges = []
-    mst_tree = Graph(is_weighted=True)
+    mst_tree = Graph(is_weighted=True, is_directed=False)
     mst_tree.adj_mat = np.zeros((G.V, G.V), dtype=np.float16)
     visited = set()
     heap = []
@@ -34,11 +34,10 @@ def prim(G: Graph):
         src, dest = edge
         if dest in visited:
             continue
-        mst_edges.append(((src, dest), edge_weight))
+        # mst_edges.append(((src, dest), edge_weight))
         curr_edge = Edge(src, dest, edge_weight)
         mst_tree.add_edge(curr_edge)
         edge_count += 1
-        
         mst_cost += edge_weight
         add_edges(dest)
     

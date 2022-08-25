@@ -2,7 +2,7 @@ from collections import deque
 from application.graph import Graph
 from application.minimum_spanning_trees import prim
 
-def tsp_nearest_neighbour(G: Graph):
+def tsp_nearest_neighbour(G: Graph) -> float:
     """
     Implementation of greedy nearest neighbour heuristic to solve the TSP.
 
@@ -31,14 +31,13 @@ def tsp_nearest_neighbour(G: Graph):
     return tsp_cost + G.adj_mat[res[-2]][start]
 
  
-def double_tree(G: Graph): 
+def double_tree(G: Graph) -> float: 
     "DOCSTRING"
     g = Graph(is_weighted=True)
     g.build_from_txt("application/sample_graphs/K_10.txt")
     mst_g = prim(g)
     mst_g.V = G.V
     start = 0
-    mst_g.show_graph()
     
     visited = set()
     path = []
@@ -61,6 +60,10 @@ def double_tree(G: Graph):
             for neighbour, _ in mst_g.get_adjacent_nodes(curr_v):
                 if neighbour not in visited:
                     stack.append(neighbour)
-    dfs_it(start)
-    print(path)
+    dfs_rec(start, visited)
+    res = sum([
+                G.get_cost_of_edge(path[i], path[i + 1])
+                for i in range(len(path) - 1)
+            ]) + G.get_cost_of_edge(path[-1], path[0])
+    return res
     # TODO: Implement DFS for the rest of the algorithm
