@@ -2,6 +2,8 @@
 """Approaches to solve the Travelling Salesman problem.
 
    Implementation consists of the nearest neighbour heuristic and the double tree heuristic.
+   The heuristic solutions are not the optimal but provide a solution in polynomial time.
+   Note that these implementations are not efficient.
 
    Todo: 
        * Brute-Force 
@@ -9,6 +11,7 @@
 """
 
 from collections import deque
+from itertools import permutations
 from application.graph import Graph
 from application.minimum_spanning_trees import prim
 
@@ -16,9 +19,9 @@ def tsp_nearest_neighbour(G: Graph) -> float:
     """Implemented of greedy nearest neighbour heuristic to solve the TSP."""
     start = 0
     visited = set()
-    res = []
+    path = []
     tsp_cost = 0
-    res.append(start)
+    path.append(start)
     visited.add(start)
     
     curr_v = start
@@ -30,12 +33,12 @@ def tsp_nearest_neighbour(G: Graph) -> float:
         tsp_cost += cost
         curr_v = next
         visited.add(curr_v)
-        res.append(curr_v)
+        path.append(curr_v)
         if visited == G.V:
             break
-    res.append(start)
+    path.append(start)
     
-    return tsp_cost + G.adj_mat[res[-2]][start]
+    return tsp_cost + G.adj_mat[path[-2]][start] #  Append returning edge: end - start to form the tour
 
  
 def tsp_double_tree(G: Graph) -> float: 
@@ -66,4 +69,23 @@ def tsp_double_tree(G: Graph) -> float:
                 if neighbour not in visited:
                     stack.append(neighbour)
     dfs_rec(start, visited)
+    
     return G.get_cost_of_cycle(tuple(path))
+
+def brute_force_tsp(G: Graph):
+        """
+        Compute the optimal solution for the TSP in a given Graph-object. 
+        Returns the costs of the minimal tour.
+        Note the complexity of O(n!).
+        """
+        nodes = range(G.V)
+        path = min(
+            (
+                perm
+                for perm in permutations(nodes)
+                if perm[1] < perm[-1] and perm[0] == 0
+            ),
+            key=G.get_cost_of_path,
+        )
+        tsp_cost = G.get_cost_of_cycle(path)
+        return tsp_cost

@@ -320,7 +320,18 @@ class Graph:
                 self.get_cost_of_edge(nodes[i], nodes[i + 1])
                 for i in range(len(nodes) - 1)
             ]
+    
         ) + self.get_cost_of_edge(nodes[-1], nodes[0])
+    def get_cost_of_path(self, nodes: tuple) -> float:
+        """
+        Return the sum of a path.
+        """
+        return sum(
+            [
+                self.get_cost_of_edge(nodes[i], nodes[i + 1])
+                for i in range(len(nodes) - 1)
+            ]
+        ) 
 
     @lru_cache(maxsize=1000)
     def brute_force_tsp(self):
