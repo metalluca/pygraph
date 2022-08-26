@@ -354,12 +354,13 @@ class Graph:
         print(f"Cycle: {path} + {path[0]}")
         print(f"Costs: {cop}")
 
-    def path_from_prev(self, dest, prev) -> list:
+    def path_from_prev(self, start, dest, parent) -> list:
         path = []
         v = dest
-        while prev[v] is not None:
+        while parent[v] is not None:
             path.insert(0, v)
-            v = prev[v]
+            v = parent[v]
+        path.insert(0, start)
         return path
 
     def bellman_ford(self, start, dest, res) -> None:
@@ -747,25 +748,36 @@ class Graph:
         flow = np.where(flow > 0, flow, 0)
         flow_costs = flow * self.costs_mat
         print(f"min-cost: {flow_costs.sum()}")
+    def find_min(self, path: list):
+        return min(
+            [
+                self.get_cost_of_edge(path[i], path[i + 1])
+                for i in range(len(path) - 1)
+            ]) 
 
 def bfs(G: Graph, start: int, end=None, visited=set()):
     """
     Breadth-first search.
     """
+    visited.add(start)
     tree = Graph(G.V, is_weighted=True)
+    parent = {v: None for v in range(G.V)}
     queue = deque([start])
     
     while queue:
         curr_v = queue.popleft()
         if end and curr_v == end:
-            return True 
+            path = G.path_from_prev(start, end, parent)
+            return path 
         for neighbour, weight in G.get_adjacent_nodes(curr_v):
             if neighbour not in visited:
                 visited.add(neighbour)
                 queue.append(neighbour)
+                parent[neighbour] = curr_v
                 edge = Edge(curr_v, neighbour, weight)
                 tree.add_edge(edge)
     return False if end else tree
+    
 
 def dfs(G: Graph, start: int):
     """
