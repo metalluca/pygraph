@@ -755,21 +755,22 @@ class Graph:
                 for i in range(len(path) - 1)
             ]) 
 
-def bfs(G: Graph, start: int, end=None, visited=set()):
+def bfs(G: Graph, start: int, end=None):
     """
     Breadth-first search.
     """
+    visited = set()
     visited.add(start)
     tree = Graph(G.V, is_weighted=True)
     parent = {v: None for v in range(G.V)}
     queue = deque([start])
-    
     while queue:
         curr_v = queue.popleft()
         if end and curr_v == end:
             path = G.path_from_prev(start, end, parent)
             return path 
         for neighbour, weight in G.get_adjacent_nodes(curr_v):
+           
             if neighbour not in visited:
                 visited.add(neighbour)
                 queue.append(neighbour)
